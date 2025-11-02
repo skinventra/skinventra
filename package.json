@@ -1,0 +1,19 @@
+{
+  "name": "skinventra",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Web application for tracking CS2 skin investments",
+  "scripts": {
+    "dev:frontend": "pnpm --filter frontend dev",
+    "dev:backend": "pnpm --filter backend start:dev",
+    "dev": "pnpm --parallel --filter frontend --filter backend dev",
+    "build": "pnpm -r build",
+    "build:frontend": "pnpm --filter frontend build",
+    "build:backend": "pnpm --filter backend build",
+    "build:shared": "pnpm --filter @skinventra/shared build"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "pnpm": ">=8.0.0"
+  }
+}

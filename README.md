@@ -1,4 +1,4 @@
-# Skinventra
+# skinventra
 
 Web application for tracking CS2 skin investments. Create portfolios, add positions with purchase prices, and monitor profit/loss in real-time.
 

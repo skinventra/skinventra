@@ -1,7 +1,20 @@
-const SteamLoginButton = () => {
+interface SteamLoginButtonProps {
+  onClick?: () => void;
+}
+
+const SteamLoginButton = ({ onClick }: SteamLoginButtonProps) => {
+  const API_URL = import.meta.env.VITE_API_URL;
+
+  if (!API_URL) {
+    throw new Error('VITE_API_URL is not set in environment variables');
+  }
+
   const handleSteamLogin = () => {
-    // TODO: Implement Steam authentication
-    console.log('Steam login clicked');
+    if (onClick) {
+      onClick();
+    } else {
+      window.location.href = `${API_URL}/auth/steam`;
+    }
   };
 
   return (

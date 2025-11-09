@@ -4,9 +4,10 @@
   "private": true,
   "description": "Web application for tracking CS2 skin investments",
   "scripts": {
+    "dev": "concurrently -n \"TUNNEL,BACKEND,FRONTEND\" -c \"cyan,green,magenta\" \"pnpm --filter backend start:tunnel\" \"pnpm --filter backend start:dev\" \"pnpm --filter frontend dev\"",
     "dev:frontend": "pnpm --filter frontend dev",
     "dev:backend": "pnpm --filter backend start:dev",
-    "dev": "pnpm --parallel --filter frontend --filter backend dev",
+    "dev:backend:tunnel": "pnpm --filter backend start:dev:tunnel",
     "build": "pnpm -r build",
     "build:frontend": "pnpm --filter frontend build",
     "build:backend": "pnpm --filter backend build",
@@ -15,5 +16,8 @@
   "engines": {
     "node": ">=18.0.0",
     "pnpm": ">=8.0.0"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
   }
 }

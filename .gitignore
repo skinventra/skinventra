@@ -25,6 +25,7 @@ packages/*/build
 *.swo
 *~
 .DS_Store
+.cursorrules
 
 # OS
 Thumbs.db

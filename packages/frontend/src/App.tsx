@@ -1,10 +1,11 @@
 import './App.css'
+import SteamLoginButton from './components/SteamLoginButton'
 
 function App() {
   return (
-    <div className="app">
-      <h1>Skinventra</h1>
-    </div>
+    <main className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <SteamLoginButton />
+    </main>
   )
 }
 

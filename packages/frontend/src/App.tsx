@@ -1,18 +1,14 @@
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Header from './components/Header'
-import UserProfile from './components/UserProfile'
 import AuthSuccess from './components/AuthSuccess'
-import { useAuth } from './hooks/useAuth'
 
 function HomePage() {
-  const { user, logout } = useAuth();
-
   return (
     <div className="min-h-screen bg-night flex flex-col">
       <Header />
       <main className="flex-1 flex items-center justify-center p-4">
-        {user && <UserProfile user={user} onLogout={logout} />}
+        {/* Main content will be added here */}
       </main>
     </div>
   );

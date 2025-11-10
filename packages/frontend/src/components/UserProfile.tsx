@@ -7,16 +7,16 @@ interface UserProfileProps {
 
 const UserProfile = ({ user, onLogout }: UserProfileProps) => {
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 max-w-md w-full">
+    <div className="bg-gunmetal rounded-lg border border-gunmetal-400 p-6 max-w-md w-full">
       <div className="flex items-center gap-4 mb-4">
         <img
           src={user.avatar}
           alt={user.username}
-          className="w-16 h-16 rounded-full border-2 border-gray-200"
+          className="w-16 h-16 rounded-full border-2 border-night-700"
         />
         <div className="flex-1">
-          <h2 className="text-xl font-bold text-gray-900">{user.username}</h2>
-          <p className="text-sm text-gray-500">Steam ID: {user.steamId}</p>
+          <h2 className="text-xl font-bold text-mint">{user.username}</h2>
+          <p className="text-sm text-cadet-900">Steam ID: {user.steamId}</p>
         </div>
       </div>
 
@@ -25,7 +25,7 @@ const UserProfile = ({ user, onLogout }: UserProfileProps) => {
           href={user.profileUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="block mb-4 text-blue-600 hover:text-blue-800 text-sm"
+          className="block mb-4 text-night-800 hover:text-night-900 text-sm transition-colors"
         >
           View Steam Profile →
         </a>
@@ -33,7 +33,7 @@ const UserProfile = ({ user, onLogout }: UserProfileProps) => {
 
       <button
         onClick={onLogout}
-        className="w-full bg-red-500 hover:bg-red-600 text-white font-medium py-2 px-4 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+        className="w-full bg-gunmetal-700 hover:bg-gunmetal-800 text-night-100 font-medium py-2 px-4 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-night-700 focus:ring-offset-2 focus:ring-offset-gunmetal"
         type="button"
       >
         Logout

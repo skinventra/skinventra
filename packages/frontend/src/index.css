@@ -1,1 +1,69 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&display=swap');
+
+@theme {
+  --font-sans: 'JetBrains Mono', monospace;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Night */
+  --color-night-100: #000302;
+  --color-night-200: #000603;
+  --color-night-300: #000905;
+  --color-night-400: #000c07;
+  --color-night: #000f08;
+  --color-night-600: #00723d;
+  --color-night-700: #00d572;
+  --color-night-800: #39ffa3;
+  --color-night-900: #9cffd1;
+
+  /* Gunmetal */
+  --color-gunmetal-100: #050b0b;
+  --color-gunmetal-200: #0b1516;
+  --color-gunmetal-300: #102021;
+  --color-gunmetal-400: #162b2b;
+  --color-gunmetal: #1c3738;
+  --color-gunmetal-600: #386d6f;
+  --color-gunmetal-700: #55a5a8;
+  --color-gunmetal-800: #8dc4c6;
+  --color-gunmetal-900: #c6e1e2;
+
+  /* Davy's Gray */
+  --color-davys-100: #0f0e0e;
+  --color-davys-200: #1f1d1c;
+  --color-davys-300: #2e2b2b;
+  --color-davys-400: #3e3a39;
+  --color-davys: #4d4847;
+  --color-davys-600: #736b6a;
+  --color-davys-700: #978f8e;
+  --color-davys-800: #b9b5b4;
+  --color-davys-900: #dcdad9;
+
+  /* Mint Cream */
+  --color-mint-100: #006425;
+  --color-mint-200: #00c849;
+  --color-mint-300: #2dff7a;
+  --color-mint-400: #91ffb9;
+  --color-mint: #f4fff8;
+  --color-mint-600: #f7fffa;
+  --color-mint-700: #f9fffb;
+  --color-mint-800: #fbfffc;
+  --color-mint-900: #fdfffe;
+
+  /* Cadet Gray */
+  --color-cadet-100: #1a2424;
+  --color-cadet-200: #344749;
+  --color-cadet-300: #4d6b6d;
+  --color-cadet-400: #678e92;
+  --color-cadet: #8baaad;
+  --color-cadet-600: #a2bbbd;
+  --color-cadet-700: #b9cccd;
+  --color-cadet-800: #d0ddde;
+  --color-cadet-900: #e8eeee;
+}
+
+body {
+  margin: 0;
+  font-family: 'JetBrains Mono', monospace;
+  background-color: #000f08;
+  color: #f4fff8;
+}

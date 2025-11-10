@@ -14,11 +14,11 @@ const AuthSuccess = () => {
   }, [navigate]);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="bg-white rounded-lg shadow-md p-8 max-w-md w-full text-center">
+    <div className="min-h-screen bg-night flex items-center justify-center">
+      <div className="bg-gunmetal rounded-lg border border-gunmetal-400 p-8 max-w-md w-full text-center">
         <div className="mb-4">
           <svg
-            className="w-16 h-16 text-green-500 mx-auto"
+            className="w-16 h-16 text-night-700 mx-auto"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -31,10 +31,10 @@ const AuthSuccess = () => {
             />
           </svg>
         </div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">
+        <h2 className="text-2xl font-bold text-mint mb-2">
           Authentication Successful!
         </h2>
-        <p className="text-gray-600">
+        <p className="text-cadet-900">
           Redirecting to home page...
         </p>
       </div>

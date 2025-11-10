@@ -20,7 +20,7 @@ const SteamLoginButton = ({ onClick }: SteamLoginButtonProps) => {
   return (
     <button
       onClick={handleSteamLogin}
-      className="cursor-pointer transition-opacity hover:opacity-90 active:opacity-75 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+      className="cursor-pointer transition-opacity hover:opacity-90 active:opacity-75 focus:outline-none"
       type="button"
       aria-label="Sign in through Steam"
     >

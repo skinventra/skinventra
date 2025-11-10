@@ -1,4 +1,5 @@
 import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import session from 'express-session';
 import passport from 'passport';
@@ -6,6 +7,7 @@ import passport from 'passport';
 async function bootstrap() {
   // Validate required environment variables
   const requiredEnvVars = [
+    'DATABASE_URL',
     'SESSION_SECRET',
     'STEAM_API_KEY',
     'STEAM_REALM',
@@ -25,6 +27,15 @@ async function bootstrap() {
   }
 
   const app = await NestFactory.create(AppModule);
+
+  // Enable validation
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    }),
+  );
 
   // Configure CORS
   app.enableCors({

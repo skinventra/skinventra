@@ -1,1 +1,2 @@
-// Shared types and utilities will be added here later
+// Shared types and utilities
+export * from './types/portfolio';

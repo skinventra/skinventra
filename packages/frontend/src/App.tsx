@@ -6,18 +6,7 @@ import AuthSuccess from './components/AuthSuccess'
 import { useAuth } from './hooks/useAuth'
 
 function HomePage() {
-  const { user, loading, logout } = useAuth();
-
-  if (loading) {
-    return (
-      <div className="min-h-screen bg-night flex flex-col">
-        <Header />
-        <main className="flex-1 flex items-center justify-center">
-          <div className="text-mint">Loading...</div>
-        </main>
-      </div>
-    );
-  }
+  const { user, logout } = useAuth();
 
   return (
     <div className="min-h-screen bg-night flex flex-col">

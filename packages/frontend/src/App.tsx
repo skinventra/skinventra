@@ -34,7 +34,7 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/auth/success" element={<AuthSuccess />} />
+        <Route path="/login-success" element={<AuthSuccess />} />
       </Routes>
     </Router>
   )

@@ -6,12 +6,9 @@ import { SteamStrategy } from './steam.strategy';
 import { SessionSerializer } from './session.serializer';
 
 @Module({
-  imports: [
-    PassportModule.register({ session: true }),
-  ],
+  imports: [PassportModule.register({ session: true })],
   controllers: [AuthController],
   providers: [AuthService, SteamStrategy, SessionSerializer],
   exports: [AuthService],
 })
 export class AuthModule {}
-

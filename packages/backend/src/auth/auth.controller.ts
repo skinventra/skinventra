@@ -14,12 +14,26 @@ export class AuthController {
   @Get('steam/callback')
   @UseGuards(SteamAuthGuard)
   steamCallback(@Req() req: Request, @Res() res: Response) {
-    // After successful authentication, redirect to frontend
+    // After successful authentication, save session before redirect
     const frontendUrl = process.env.FRONTEND_URL;
     if (!frontendUrl) {
       throw new Error('FRONTEND_URL is not set in environment variables');
     }
-    res.redirect(`${frontendUrl}/auth/success`);
+
+    // Explicitly save session before redirecting
+    req.session.save((err) => {
+      if (err) {
+        console.error('Session save error:', err);
+        return res.status(500).json({
+          message: 'Failed to save session',
+          error:
+            process.env.NODE_ENV === 'development'
+              ? (err as Error).message
+              : undefined,
+        });
+      }
+      res.redirect(`${frontendUrl}/login-success`);
+    });
   }
 
   @Get('user')
@@ -36,7 +50,9 @@ export class AuthController {
       }
       req.session.destroy((err) => {
         if (err) {
-          return res.status(500).json({ message: 'Session destruction failed' });
+          return res
+            .status(500)
+            .json({ message: 'Session destruction failed' });
         }
         res.clearCookie('connect.sid');
         res.json({ message: 'Logged out successfully' });
@@ -52,4 +68,3 @@ export class AuthController {
     };
   }
 }
-

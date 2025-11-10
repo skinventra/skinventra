@@ -10,4 +10,3 @@ export class SteamAuthGuard extends AuthGuard('steam') {
     return result;
   }
 }
-

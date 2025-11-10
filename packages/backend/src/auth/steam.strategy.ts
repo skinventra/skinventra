@@ -11,7 +11,7 @@ export class SteamStrategy extends PassportStrategy(Strategy, 'steam') {
 
     if (!returnURL || !realm || !apiKey) {
       throw new Error(
-        'Missing required environment variables: STEAM_RETURN_URL, STEAM_REALM, or STEAM_API_KEY'
+        'Missing required environment variables: STEAM_RETURN_URL, STEAM_REALM, or STEAM_API_KEY',
       );
     }
 
@@ -32,4 +32,3 @@ export class SteamStrategy extends PassportStrategy(Strategy, 'steam') {
     };
   }
 }
-

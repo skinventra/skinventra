@@ -7,4 +7,3 @@ export class AuthenticatedGuard implements CanActivate {
     return request.isAuthenticated();
   }
 }
-

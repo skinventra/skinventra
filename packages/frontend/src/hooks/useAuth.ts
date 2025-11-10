@@ -1,20 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import type { User } from '../types/user';
 
-const API_URL = import.meta.env.VITE_API_URL;
-
-if (!API_URL) {
-  throw new Error('VITE_API_URL is not set in environment variables');
-}
+// In development with path-based routing: leave VITE_API_URL empty
+// In production: set VITE_API_URL to your backend domain
+const API_URL = import.meta.env.VITE_API_URL || '';
 
 export type { User };
 
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const checkAuthStatus = async () => {
+  const checkAuthStatus = useCallback(async () => {
     try {
       const response = await fetch(`${API_URL}/auth/status`, {
         credentials: 'include',
@@ -38,13 +37,16 @@ export function useAuth() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
   const login = () => {
     window.location.href = `${API_URL}/auth/steam`;
   };
 
   const logout = async () => {
+    if (isLoggingOut) return;
+    
+    setIsLoggingOut(true);
     try {
       const response = await fetch(`${API_URL}/auth/logout`, {
         credentials: 'include',
@@ -53,21 +55,24 @@ export function useAuth() {
       if (!response.ok) {
         throw new Error('Logout failed');
       }
-
-      setUser(null);
     } catch (err) {
       console.error('Logout error:', err);
       setError(err instanceof Error ? err.message : 'Unknown error');
+    } finally {
+      // Always clear user state, even if logout request fails
+      setUser(null);
+      setIsLoggingOut(false);
     }
   };
 
   useEffect(() => {
     checkAuthStatus();
-  }, []);
+  }, [checkAuthStatus]);
 
   return {
     user,
     loading,
+    isLoggingOut,
     error,
     login,
     logout,

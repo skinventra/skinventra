@@ -1,8 +1,9 @@
 import SteamLoginButton from './SteamLoginButton';
+import HeaderUserMenu from './HeaderUserMenu';
 import { useAuth } from '../hooks/useAuth';
 
 const Header = () => {
-  const { user } = useAuth();
+  const { user, logout, isLoggingOut } = useAuth();
 
   return (
     <header className="bg-gunmetal-200 border-b border-gunmetal-400">
@@ -14,9 +15,10 @@ const Header = () => {
           </h1>
         </div>
 
-        {/* Login Button */}
+        {/* Auth section */}
         <div className="flex items-center">
           {!user && <SteamLoginButton />}
+          {user && <HeaderUserMenu user={user} onLogout={logout} isLoggingOut={isLoggingOut} />}
         </div>
       </div>
     </header>

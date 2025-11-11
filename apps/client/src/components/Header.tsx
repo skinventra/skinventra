@@ -1,7 +1,7 @@
-import { Link } from 'react-router-dom';
-import SteamLoginButton from './SteamLoginButton';
-import HeaderUserMenu from './HeaderUserMenu';
-import { useAuth } from '../hooks/useAuth';
+import { Link } from "react-router-dom";
+import SteamLoginButton from "./SteamLoginButton";
+import HeaderUserMenu from "./HeaderUserMenu";
+import { useAuth } from "../hooks/useAuth";
 
 const Header = () => {
   const { user, logout, isLoggingOut } = useAuth();
@@ -16,24 +16,30 @@ const Header = () => {
               skinventra
             </h1>
           </Link>
-          
+
           {/* Navigation Links */}
-          {user && (
+          {
             <nav className="flex items-center gap-6">
-              <Link 
-                to="/portfolios" 
-                className="text-white hover:text-mint transition-colors font-medium"
+              <Link
+                to="/portfolios"
+                className="px-4 py-2 bg-gunmetal-700 text-white font-medium rounded-lg border border-gunmetal-400 hover:bg-mint hover:text-night hover:border-mint transition-all duration-200 hover:shadow-lg"
               >
                 Portfolios
               </Link>
             </nav>
-          )}
+          }
         </div>
 
         {/* Auth section */}
         <div className="flex items-center">
           {!user && <SteamLoginButton />}
-          {user && <HeaderUserMenu user={user} onLogout={logout} isLoggingOut={isLoggingOut} />}
+          {user && (
+            <HeaderUserMenu
+              user={user}
+              onLogout={logout}
+              isLoggingOut={isLoggingOut}
+            />
+          )}
         </div>
       </div>
     </header>
@@ -41,4 +47,3 @@ const Header = () => {
 };
 
 export default Header;
-

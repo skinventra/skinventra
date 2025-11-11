@@ -9,7 +9,14 @@ function HomePage() {
     <div className="min-h-screen bg-night flex flex-col">
       <Header />
       <main className="flex-1 flex items-center justify-center p-4">
-        {/* Main content will be added here */}
+        <div className="max-w-4xl mx-auto text-center">
+          <h1 className="text-4xl font-bold text-mint mb-6">Skinventra</h1>
+          <p className="text-xl text-gray-300 leading-relaxed">
+            Skinventra is a SaaS platform for tracking and analyzing Steam inventory. 
+            Users can manage portfolios, monitor item prices, calculate P&L, and access 
+            advanced analytics. Free and paid tiers with Steam OAuth and automated price updates.
+          </p>
+        </div>
       </main>
     </div>
   );

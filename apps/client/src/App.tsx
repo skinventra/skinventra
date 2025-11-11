@@ -2,6 +2,7 @@ import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Header from './components/Header'
 import AuthSuccess from './components/AuthSuccess'
+import PortfoliosPage from './pages/PortfoliosPage'
 
 function HomePage() {
   return (
@@ -20,6 +21,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/login-success" element={<AuthSuccess />} />
+        <Route path="/portfolios" element={<PortfoliosPage />} />
       </Routes>
     </Router>
   )

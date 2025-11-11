@@ -12,5 +12,12 @@ export const API_ENDPOINTS = {
     logout: `${API_URL}/auth/logout`,
     steam: `${API_URL}/auth/steam`,
   },
+  portfolios: {
+    list: `${API_URL}/portfolios`,
+    create: `${API_URL}/portfolios`,
+    detail: (id: string) => `${API_URL}/portfolios/${id}`,
+    update: (id: string) => `${API_URL}/portfolios/${id}`,
+    delete: (id: string) => `${API_URL}/portfolios/${id}`,
+  }
 } as const;
 

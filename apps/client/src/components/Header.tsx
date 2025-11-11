@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import SteamLoginButton from './SteamLoginButton';
 import HeaderUserMenu from './HeaderUserMenu';
 import { useAuth } from '../hooks/useAuth';
@@ -8,11 +9,25 @@ const Header = () => {
   return (
     <header className="bg-gunmetal-200 border-b border-gunmetal-400">
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        {/* Logo */}
-        <div className="flex items-center">
-          <h1 className="text-2xl font-bold text-mint tracking-tight">
-            skinventra
-          </h1>
+        {/* Logo and Navigation */}
+        <div className="flex items-center gap-8">
+          <Link to="/">
+            <h1 className="text-2xl font-bold text-mint tracking-tight hover:text-mint-400 transition-colors">
+              skinventra
+            </h1>
+          </Link>
+          
+          {/* Navigation Links */}
+          {user && (
+            <nav className="flex items-center gap-6">
+              <Link 
+                to="/portfolios" 
+                className="text-white hover:text-mint transition-colors font-medium"
+              >
+                Portfolios
+              </Link>
+            </nav>
+          )}
         </div>
 
         {/* Auth section */}

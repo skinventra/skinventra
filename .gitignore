@@ -13,8 +13,8 @@ node_modules/
 dist/
 build/
 *.tsbuildinfo
-packages/*/dist
-packages/*/build
+apps/*/dist
+apps/*/build
 **/dist
 **/build
 
@@ -38,11 +38,10 @@ yarn-debug.log*
 yarn-error.log*
 
 # Prisma
-packages/backend/prisma/migrations/
+apps/api/prisma/migrations/
 
-# Testing
-coverage/
-.nyc_output/
+# Turborepo
+.turbo
 
 # Temporary files
 *.tmp

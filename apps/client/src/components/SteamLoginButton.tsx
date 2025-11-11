@@ -1,16 +1,15 @@
+import { API_ENDPOINTS } from '../config/api';
+
 interface SteamLoginButtonProps {
   onClick?: () => void;
 }
 
 const SteamLoginButton = ({ onClick }: SteamLoginButtonProps) => {
-  // In development with path-based routing: leave VITE_API_URL empty
-  // In production: set VITE_API_URL to your backend domain
-  const API_URL = import.meta.env.VITE_API_URL || '';
   const handleSteamLogin = () => {
     if (onClick) {
       onClick();
     } else {
-      window.location.href = `${API_URL}/auth/steam`;
+      window.location.href = API_ENDPOINTS.auth.steam;
     }
   };
 

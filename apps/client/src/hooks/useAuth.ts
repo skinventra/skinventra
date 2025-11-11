@@ -1,10 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { User } from '../types/user';
 import { STALE_TIME, GARBAGE_COLLECTION_TIME } from '../config/reactQuery';
-
-// In development with path-based routing: leave VITE_API_URL empty
-// In production: set VITE_API_URL to your backend domain
-const API_URL = import.meta.env.VITE_API_URL || '';
+import { API_ENDPOINTS } from '../config/api';
 
 export type { User };
 
@@ -15,7 +12,7 @@ interface AuthStatusResponse {
 
 // Fetch auth status
 async function fetchAuthStatus(): Promise<User | null> {
-  const response = await fetch(`${API_URL}/auth/status`, {
+  const response = await fetch(API_ENDPOINTS.auth.status, {
     credentials: 'include',
   });
   
@@ -39,7 +36,7 @@ async function fetchAuthStatus(): Promise<User | null> {
 
 // Logout function
 async function logoutUser(): Promise<void> {
-  const response = await fetch(`${API_URL}/auth/logout`, {
+  const response = await fetch(API_ENDPOINTS.auth.logout, {
     credentials: 'include',
   });
 
@@ -94,7 +91,7 @@ export function useAuth() {
   });
 
   const login = () => {
-    window.location.href = `${API_URL}/auth/steam`;
+    window.location.href = API_ENDPOINTS.auth.steam;
   };
 
   const logout = () => {

@@ -4,20 +4,30 @@
   "private": true,
   "description": "Web application for tracking CS2 skin investments",
   "scripts": {
-    "dev": "concurrently -n \"TUNNEL,BACKEND,FRONTEND\" -c \"cyan,green,magenta\" \"pnpm --filter backend start:tunnel\" \"pnpm --filter backend start:dev\" \"pnpm --filter frontend dev\"",
-    "dev:frontend": "pnpm --filter frontend dev",
-    "dev:backend": "pnpm --filter backend start:dev",
-    "dev:backend:tunnel": "pnpm --filter backend start:dev:tunnel",
-    "build": "pnpm -r build",
-    "build:frontend": "pnpm --filter frontend build",
-    "build:backend": "pnpm --filter backend build",
-    "build:shared": "pnpm --filter @skinventra/shared build"
+    "dev": "turbo run dev start:tunnel prisma:studio",
+    "dev:local": "turbo run dev prisma:studio --filter=client --filter=api",
+    "dev:tunnel": "turbo run dev start:tunnel prisma:studio",
+    "dev:prod": "pnpm build:client && turbo run dev:prod start:tunnel --filter=api",
+    "build": "turbo run build",
+    "build:client": "turbo run build --filter=client",
+    "build:prod": "turbo run build --filter=client... && turbo run build --filter=api",
+    "start:prod": "turbo run start:prod --filter=api",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "prisma:generate": "turbo run prisma:generate --filter=api",
+    "prisma:migrate": "turbo run prisma:migrate --filter=api",
+    "prisma:studio": "turbo run prisma:studio --filter=api",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f postgres",
+    "docker:reset": "docker-compose down -v && docker-compose up -d"
   },
+  "packageManager": "pnpm@10.20.0",
   "engines": {
     "node": ">=18.0.0",
     "pnpm": ">=8.0.0"
   },
   "devDependencies": {
-    "concurrently": "^9.2.1"
+    "turbo": "^2.6.0"
   }
 }

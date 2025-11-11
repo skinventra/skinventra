@@ -3,6 +3,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
 import session from 'express-session';
 import passport from 'passport';
+import { createProxyMiddleware } from 'http-proxy-middleware';
 
 async function bootstrap() {
   // Validate required environment variables
@@ -27,6 +28,27 @@ async function bootstrap() {
   }
 
   const app = await NestFactory.create(AppModule);
+
+  // In development, proxy non-API requests to Vite dev server
+  const isProduction = process.env.NODE_ENV === 'production';
+  if (!isProduction) {
+    const viteProxy = createProxyMiddleware({
+      target: 'http://localhost:5173',
+      changeOrigin: true,
+      ws: true, // Enable WebSocket proxying for HMR
+    });
+    
+    // Apply proxy only to non-API routes
+    app.use((req, res, next) => {
+      if (req.url.startsWith('/api')) {
+        return next();
+      }
+      viteProxy(req, res, next);
+    });
+  }
+
+  // Set global API prefix
+  app.setGlobalPrefix('api');
 
   // Enable validation
   app.useGlobalPipes(

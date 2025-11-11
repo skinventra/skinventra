@@ -44,7 +44,7 @@ const port = process.env.PORT || 3000;
 
 if (!token) {
   log('\n❌ Error: CLOUDFLARE_TUNNEL_TOKEN not set in .env file!', colors.red);
-  log('   Please add your tunnel token to packages/backend/.env\n', colors.yellow);
+  log('   Please add your tunnel token to apps/api/.env\n', colors.yellow);
   process.exit(1);
 }
 

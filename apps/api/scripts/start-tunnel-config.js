@@ -31,7 +31,7 @@ if (!fs.existsSync(configPath)) {
   log('\n❌ Error: Cloudflare config file not found!', colors.red);
   log(`   Expected location: ${configPath}`, colors.yellow);
   log('\n   Please create the config file first.', colors.yellow);
-  log('   See packages/backend/.cloudflared-config-example.yml for template\n', colors.yellow);
+  log('   See apps/api/.cloudflared-config-example.yml for template\n', colors.yellow);
   process.exit(1);
 }
 

@@ -11,13 +11,13 @@ Web application for tracking CS2 skin investments. Create portfolios, add positi
 
 ## Tech Stack
 
-### Frontend
+### Client (Frontend)
 - React 18 + Vite
 - TypeScript
 - TailwindCSS
 - Native fetch API
 
-### Backend
+### API (Backend)
 - Nest.js
 - TypeScript
 - Prisma ORM
@@ -25,6 +25,19 @@ Web application for tracking CS2 skin investments. Create portfolios, add positi
 - Passport.js with Steam strategy
 - class-validator for DTO validation
 
-### Infrastructure
-- PostgreSQL database
-- GitHub for version control
+### Infrastructure & DevOps
+- **Monorepo**: Turborepo for build orchestration and caching
+- **Package Manager**: pnpm workspace
+- **Database**: PostgreSQL
+- **Static Files**: @nestjs/serve-static for serving client from API
+- **Version Control**: Git & GitHub
+
+### Project Structure
+```
+skinventra/
+├── apps/
+│   ├── api/          # NestJS backend (port 3000)
+│   ├── client/       # React + Vite frontend (port 5173 in dev)
+│   └── shared/       # Shared types and utilities
+├── turbo.json        # Turborepo pipeline configuration
+└── package.json      # Root workspace configuration

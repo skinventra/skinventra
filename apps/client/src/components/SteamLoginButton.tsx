@@ -9,6 +9,8 @@ const SteamLoginButton = ({ onClick }: SteamLoginButtonProps) => {
     if (onClick) {
       onClick();
     } else {
+      const path = window.location.pathname;
+      sessionStorage.setItem('returnUrl', path);
       window.location.href = API_ENDPOINTS.auth.steam;
     }
   };

@@ -7,10 +7,15 @@ const AuthSuccess = () => {
   const { refetch } = useAuth();
 
   useEffect(() => {
-    // Refetch auth status and redirect immediately
     const handleAuthSuccess = async () => {
+      const returnUrl = sessionStorage.getItem('returnUrl');
+      
       await refetch();
-      navigate('/');
+      
+      const finalUrl = returnUrl || '/';
+      
+      sessionStorage.removeItem('returnUrl');
+      navigate(finalUrl);
     };
 
     handleAuthSuccess();

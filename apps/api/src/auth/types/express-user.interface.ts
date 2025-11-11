@@ -1,5 +1,6 @@
 // Extend Express Request type with user
 declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
   namespace Express {
     interface User {
       id: string;
@@ -14,5 +15,3 @@ declare global {
 }
 
 export {};
-
-

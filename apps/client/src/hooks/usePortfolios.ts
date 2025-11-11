@@ -103,10 +103,6 @@ export function usePortfolios() {
   // Mutation for creating a portfolio
   const createMutation = useMutation({
     mutationFn: createPortfolio,
-    onSuccess: () => {
-      // Invalidate and refetch portfolios list
-      queryClient.invalidateQueries({ queryKey: ['portfolios'] });
-    },
     onError: (err) => {
       console.error('Create portfolio error:', err);
     },
@@ -115,10 +111,6 @@ export function usePortfolios() {
   // Mutation for updating a portfolio
   const updateMutation = useMutation({
     mutationFn: updatePortfolio,
-    onSuccess: () => {
-      // Invalidate and refetch portfolios list
-      queryClient.invalidateQueries({ queryKey: ['portfolios'] });
-    },
     onError: (err) => {
       console.error('Update portfolio error:', err);
     },
@@ -127,10 +119,6 @@ export function usePortfolios() {
   // Mutation for deleting a portfolio
   const deleteMutation = useMutation({
     mutationFn: deletePortfolio,
-    onSuccess: () => {
-      // Invalidate and refetch portfolios list
-      queryClient.invalidateQueries({ queryKey: ['portfolios'] });
-    },
     onError: (err) => {
       console.error('Delete portfolio error:', err);
     },
@@ -145,9 +133,21 @@ export function usePortfolios() {
 
     // Actions
     refetch,
-    createPortfolio: (data: CreatePortfolioDto) => createMutation.mutateAsync(data),
-    updatePortfolio: (id: string, data: UpdatePortfolioDto) => updateMutation.mutateAsync({ id, data }),
-    deletePortfolio: (id: string) => deleteMutation.mutateAsync(id),
+    createPortfolio: async (data: CreatePortfolioDto) => {
+      await createMutation.mutateAsync(data);
+      queryClient.removeQueries({ queryKey: ['portfolios'] });
+      await refetch();
+    },
+    updatePortfolio: async (id: string, data: UpdatePortfolioDto) => {
+      await updateMutation.mutateAsync({ id, data });
+      queryClient.removeQueries({ queryKey: ['portfolios'] });
+      await refetch();
+    },
+    deletePortfolio: async (id: string) => {
+      await deleteMutation.mutateAsync(id);
+      queryClient.removeQueries({ queryKey: ['portfolios'] });
+      await refetch();
+    },
 
     // Mutation states
     isCreating: createMutation.isPending,

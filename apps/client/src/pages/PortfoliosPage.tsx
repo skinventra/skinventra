@@ -1,13 +1,30 @@
+import { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
+import { usePortfolios } from '../hooks/usePortfolios';
 import CreatePortfolioForm from '../components/CreatePortfolioForm';
 import PortfolioList from '../components/PortfolioList';
+import PortfolioDetailView from '../components/PortfolioDetailView';
 import Header from '../components/Header';
 
 export default function PortfoliosPage() {
-  const { user, loading } = useAuth();
+  const { user, loading: authLoading } = useAuth();
+  const [selectedPortfolioId, setSelectedPortfolioId] = useState<string | null>(null);
+  
+  const portfoliosData = usePortfolios();
+  const { portfolios } = portfoliosData;
 
-  // Handle loading state
-  if (loading) {
+  // Auto-redirect back if selected portfolio is deleted
+  useEffect(() => {
+    if (selectedPortfolioId) {
+      const portfolioExists = portfolios.some(p => p.id === selectedPortfolioId);
+      if (!portfolioExists) {
+        setSelectedPortfolioId(null);
+      }
+    }
+  }, [portfolios, selectedPortfolioId]);
+
+  // Handle auth loading state
+  if (authLoading) {
     return (
       <div className="min-h-screen bg-night flex flex-col">
         <Header />
@@ -41,11 +58,31 @@ export default function PortfoliosPage() {
     <div className="min-h-screen bg-night flex flex-col">
       <Header />
       
-      <main className="flex-1 container mx-auto px-4 py-8">
-        <div className="max-w-4xl mx-auto space-y-8">
-          <CreatePortfolioForm />
-          <PortfolioList />
-        </div>
+      <main className="flex-1 flex overflow-hidden">
+        {selectedPortfolioId ? (
+          <PortfolioDetailView 
+            portfolioId={selectedPortfolioId}
+            onBack={() => setSelectedPortfolioId(null)}
+            onSelectPortfolio={setSelectedPortfolioId}
+            portfoliosData={portfoliosData}
+          />
+        ) : (
+          <div className="flex-1 overflow-y-auto">
+            <div className="container mx-auto px-4 py-8">
+              <div className="max-w-4xl mx-auto space-y-8">
+                <CreatePortfolioForm 
+                  createPortfolio={portfoliosData.createPortfolio}
+                  isCreating={portfoliosData.isCreating}
+                  createError={portfoliosData.createError}
+                />
+                <PortfolioList 
+                  onSelectPortfolio={setSelectedPortfolioId}
+                  portfoliosData={portfoliosData}
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     </div>
   );

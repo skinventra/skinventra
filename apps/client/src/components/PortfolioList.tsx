@@ -1,11 +1,24 @@
-import { usePortfolios } from '../hooks/usePortfolios';
 import { usePortfolioEdit } from '../hooks/usePortfolioEdit';
 import { useDeleteConfirmation } from '../hooks/useDeleteConfirmation';
 import PortfolioSkeleton from './PortfolioSkeleton';
 import PortfolioContainer from './PortfolioContainer';
 import PortfolioCard from './PortfolioCard';
+import type { Portfolio } from '../types/portfolio';
 
-export default function PortfolioList() {
+interface PortfolioListProps {
+  onSelectPortfolio: (id: string) => void;
+  portfoliosData: {
+    portfolios: Portfolio[];
+    loading: boolean;
+    error: string | null;
+    updatePortfolio: (id: string, data: { title?: string }) => Promise<void>;
+    deletePortfolio: (id: string) => Promise<void>;
+    isUpdating: boolean;
+    isDeleting: boolean;
+  };
+}
+
+export default function PortfolioList({ onSelectPortfolio, portfoliosData }: PortfolioListProps) {
   const { 
     portfolios, 
     loading, 
@@ -14,7 +27,7 @@ export default function PortfolioList() {
     deletePortfolio,
     isUpdating,
     isDeleting 
-  } = usePortfolios();
+  } = portfoliosData;
 
   const {
     editingId,
@@ -79,6 +92,7 @@ export default function PortfolioList() {
             onDelete={() => handleDelete(portfolio.id)}
             onCancelDelete={cancelDelete}
             onTitleChange={setEditingTitle}
+            onSelect={() => onSelectPortfolio(portfolio.id)}
           />
         ))}
       </div>

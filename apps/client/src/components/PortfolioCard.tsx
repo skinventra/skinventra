@@ -18,6 +18,7 @@ interface PortfolioCardProps {
   onDelete: () => void;
   onCancelDelete: () => void;
   onTitleChange: (title: string) => void;
+  onSelect: () => void;
 }
 
 export default function PortfolioCard({
@@ -33,9 +34,24 @@ export default function PortfolioCard({
   onDelete,
   onCancelDelete,
   onTitleChange,
+  onSelect,
 }: PortfolioCardProps) {
+  const handleCardClick = () => {
+    if (!isEditing && !isDeletingConfirmation) {
+      onSelect();
+    }
+  };
+
+  const handleActionClick = (e: React.MouseEvent, action: () => void) => {
+    e.stopPropagation();
+    action();
+  };
+
   return (
-    <div className="bg-davys-100 border border-white-200 rounded-lg shadow p-4 group">
+    <div 
+      className="bg-davys-100 border border-white-200 rounded-lg shadow p-4 group cursor-pointer hover:border-mint transition-colors"
+      onClick={handleCardClick}
+    >
       <div className="flex items-start justify-between gap-4">
         {/* Title or Edit Input */}
         <div className="flex-1">
@@ -44,6 +60,14 @@ export default function PortfolioCard({
               type="text"
               value={editingTitle}
               onChange={(e) => onTitleChange(e.target.value)}
+              onClick={(e) => e.stopPropagation()}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && editingTitle.trim()) {
+                  onSave();
+                } else if (e.key === 'Escape') {
+                  onCancel();
+                }
+              }}
               className="w-full px-3 py-2 border border-cadet-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-900"
               disabled={isUpdating}
               autoFocus
@@ -60,7 +84,7 @@ export default function PortfolioCard({
           {isEditing ? (
             <>
               <ActionButton
-                onClick={onSave}
+                onClick={(e) => handleActionClick(e, onSave)}
                 disabled={isUpdating || !editingTitle.trim()}
                 variant="save"
                 title="Save"
@@ -68,7 +92,7 @@ export default function PortfolioCard({
                 <SaveIcon />
               </ActionButton>
               <ActionButton
-                onClick={onCancel}
+                onClick={(e) => handleActionClick(e, onCancel)}
                 disabled={isUpdating}
                 variant="cancel"
                 title="Cancel"
@@ -80,7 +104,7 @@ export default function PortfolioCard({
             <>
               {isDeletingConfirmation ? (
                 <ActionButton
-                  onClick={onCancelDelete}
+                  onClick={(e) => handleActionClick(e, onCancelDelete)}
                   disabled={isDeleting}
                   variant="cancel"
                   title="Cancel deletion"
@@ -89,7 +113,7 @@ export default function PortfolioCard({
                 </ActionButton>
               ) : (
                 <ActionButton
-                  onClick={onEdit}
+                  onClick={(e) => handleActionClick(e, onEdit)}
                   disabled={isUpdating || isDeleting}
                   variant="edit"
                   title="Edit"
@@ -99,7 +123,7 @@ export default function PortfolioCard({
               )}
 
               <ActionButton
-                onClick={onDelete}
+                onClick={(e) => handleActionClick(e, onDelete)}
                 disabled={isUpdating || isDeleting}
                 variant={isDeletingConfirmation ? 'delete-confirm' : 'delete'}
                 title={isDeletingConfirmation ? 'Click to confirm deletion' : 'Delete'}

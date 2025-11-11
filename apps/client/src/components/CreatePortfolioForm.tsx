@@ -1,10 +1,18 @@
 import { useState } from 'react';
 import type { FormEvent } from 'react';
-import { usePortfolios } from '../hooks/usePortfolios';
 
-export default function CreatePortfolioForm() {
+interface CreatePortfolioFormProps {
+  createPortfolio: (data: { title: string }) => Promise<void>;
+  isCreating: boolean;
+  createError: string | null;
+}
+
+export default function CreatePortfolioForm({ 
+  createPortfolio, 
+  isCreating, 
+  createError 
+}: CreatePortfolioFormProps) {
   const [title, setTitle] = useState('');
-  const { createPortfolio, isCreating, createError } = usePortfolios();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

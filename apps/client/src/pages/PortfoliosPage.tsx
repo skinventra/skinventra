@@ -10,7 +10,7 @@ export default function PortfoliosPage() {
   const { user, loading: authLoading } = useAuth();
   const [selectedPortfolioId, setSelectedPortfolioId] = useState<string | null>(null);
   
-  const portfoliosData = usePortfolios();
+  const portfoliosData = usePortfolios(!authLoading && !!user);
   const { portfolios } = portfoliosData;
 
   // Auto-redirect back if selected portfolio is deleted

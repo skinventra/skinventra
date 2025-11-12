@@ -1,6 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { User } from '../types/user';
-import { STALE_TIME, GARBAGE_COLLECTION_TIME } from '../config/reactQuery';
 import { API_ENDPOINTS } from '../config/api';
 
 export type { User };
@@ -10,7 +9,6 @@ interface AuthStatusResponse {
   user?: User;
 }
 
-// Fetch auth status
 async function fetchAuthStatus(): Promise<User | null> {
   const response = await fetch(API_ENDPOINTS.auth.status, {
     credentials: 'include',
@@ -21,17 +19,7 @@ async function fetchAuthStatus(): Promise<User | null> {
   }
 
   const data: AuthStatusResponse = await response.json();
-  
-  const user = data.authenticated && data.user ? data.user : null;
-  
-  // Keep localStorage in sync for initialData
-  if (user) {
-    localStorage.setItem('user', JSON.stringify(user));
-  } else {
-    localStorage.removeItem('user');
-  }
-  
-  return user;
+  return data.authenticated && data.user ? data.user : null;
 }
 
 // Logout function
@@ -45,21 +33,9 @@ async function logoutUser(): Promise<void> {
   }
 }
 
-// Get initial data from localStorage for instant rendering
-// This provides synchronous access while React Query Persist loads asynchronously
-function getInitialUser(): User | null {
-  try {
-    const cached = localStorage.getItem('user');
-    return cached ? JSON.parse(cached) : null;
-  } catch {
-    return null;
-  }
-}
-
 export function useAuth() {
   const queryClient = useQueryClient();
 
-  // Query for auth status
   const { 
     data: user = null, 
     isLoading: loading, 
@@ -68,24 +44,21 @@ export function useAuth() {
   } = useQuery({
     queryKey: ['auth', 'status'],
     queryFn: fetchAuthStatus,
-    initialData: getInitialUser, // Synchronous load for instant rendering
-    staleTime: STALE_TIME,
-    gcTime: GARBAGE_COLLECTION_TIME,
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: true,
   });
 
-  // Mutation for logout
   const logoutMutation = useMutation({
     mutationFn: logoutUser,
     onSuccess: () => {
-      // Clear localStorage and query cache
-      localStorage.removeItem('user');
       queryClient.setQueryData(['auth', 'status'], null);
       queryClient.invalidateQueries({ queryKey: ['auth'] });
+      queryClient.invalidateQueries({ queryKey: ['portfolios'] });
     },
     onError: (err) => {
       console.error('Logout error:', err);
-      // Even if logout fails, clear local state
-      localStorage.removeItem('user');
       queryClient.setQueryData(['auth', 'status'], null);
     },
   });

@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import SteamLoginButton from "../auth/SteamLoginButton";
+import AuthButtonSkeleton from "../auth/AuthButtonSkeleton";
 import HeaderUserMenu from "./HeaderUserMenu";
 import { useAuth } from "../../hooks/useAuth";
 
 const Header = () => {
-  const { user, logout, isLoggingOut } = useAuth();
+  const { user, loading, logout, isLoggingOut } = useAuth();
 
   return (
     <header className="bg-gunmetal-200 border-b border-gunmetal-400">
@@ -32,8 +33,9 @@ const Header = () => {
 
         {/* Auth section */}
         <div className="flex items-center">
-          {!user && <SteamLoginButton />}
-          {user && (
+          {loading && <AuthButtonSkeleton />}
+          {!loading && !user && <SteamLoginButton />}
+          {!loading && user && (
             <HeaderUserMenu
               user={user}
               onLogout={logout}

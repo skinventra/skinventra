@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
@@ -7,6 +7,10 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { PortfolioModule } from './portfolio/portfolio.module';
+import { SessionValidationMiddleware } from './auth/middleware/session-validation.middleware';
+import { UserContextMiddleware } from './auth/middleware/user-context.middleware';
+import { AuthLoggingMiddleware } from './auth/middleware/auth-logging.middleware';
+import { RateLimitMiddleware } from './auth/middleware/rate-limit.middleware';
 
 const isProduction = process.env.NODE_ENV === 'production';
 
@@ -44,6 +48,18 @@ const isProduction = process.env.NODE_ENV === 'production';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {
-  // Middleware is now applied in main.ts
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(RateLimitMiddleware)
+      .forRoutes('auth/steam', 'auth/steam/callback');
+
+    consumer
+      .apply(SessionValidationMiddleware, AuthLoggingMiddleware)
+      .forRoutes('*');
+
+    consumer
+      .apply(UserContextMiddleware)
+      .forRoutes('portfolios', 'auth/user');
+  }
 }

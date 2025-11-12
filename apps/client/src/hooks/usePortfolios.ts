@@ -1,7 +1,5 @@
-import { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import type { Portfolio, CreatePortfolioDto, UpdatePortfolioDto } from '../types/portfolio';
-import { STALE_TIME, GARBAGE_COLLECTION_TIME } from '../config/reactQuery';
 import { API_ENDPOINTS } from '../config/api';
 
 // Re-export types for convenience
@@ -71,34 +69,24 @@ async function deletePortfolio(id: string): Promise<void> {
   }
 }
 
-export function usePortfolios() {
+export function usePortfolios(enabled: boolean = true) {
   const queryClient = useQueryClient();
-  
-  // Track if we've completed the first fetch
-  const [hasCompletedFirstFetch, setHasCompletedFirstFetch] = useState(false);
 
-  // Query for fetching all portfolios
   const {
     data: portfolios = [],
+    isLoading: loading,
     isFetching,
     error: queryError,
     refetch,
   } = useQuery({
     queryKey: ['portfolios'],
     queryFn: fetchPortfolios,
-    staleTime: STALE_TIME,
-    gcTime: GARBAGE_COLLECTION_TIME,
+    enabled,
+    staleTime: 0,
+    gcTime: 0,
+    refetchOnMount: 'always',
+    refetchOnWindowFocus: true,
   });
-
-  // Mark first fetch as complete when fetching stops for the first time
-  useEffect(() => {
-    if (!isFetching) {
-      setHasCompletedFirstFetch(true);
-    }
-  }, [isFetching]);
-
-  // Show loading if we haven't completed first fetch yet
-  const loading = !hasCompletedFirstFetch;
 
   // Mutation for creating a portfolio
   const createMutation = useMutation({

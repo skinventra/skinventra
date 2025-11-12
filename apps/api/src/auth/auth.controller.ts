@@ -2,6 +2,7 @@ import { Controller, Get, Req, Res, UseGuards } from '@nestjs/common';
 import type { Request, Response } from 'express';
 import { SteamAuthGuard } from './guards/steam-auth.guard';
 import { AuthenticatedGuard } from './guards/authenticated.guard';
+import { CurrentUser } from './decorators/current-user.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -14,13 +15,11 @@ export class AuthController {
   @Get('steam/callback')
   @UseGuards(SteamAuthGuard)
   steamCallback(@Req() req: Request, @Res() res: Response) {
-    // After successful authentication, save session before redirect
     const frontendUrl = process.env.FRONTEND_URL;
     if (!frontendUrl) {
       throw new Error('FRONTEND_URL is not set in environment variables');
     }
 
-    // Explicitly save session before redirecting
     req.session.save((err) => {
       if (err) {
         console.error('Session save error:', err);
@@ -38,8 +37,8 @@ export class AuthController {
 
   @Get('user')
   @UseGuards(AuthenticatedGuard)
-  getUser(@Req() req: Request) {
-    return req.user;
+  getUser(@CurrentUser() user: Express.User) {
+    return user;
   }
 
   @Get('logout')

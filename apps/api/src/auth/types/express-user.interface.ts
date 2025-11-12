@@ -10,6 +10,8 @@ declare global {
       profileUrl?: string;
       createdAt: Date;
       updatedAt: Date;
+      portfolioCount?: number;
+      lastFetched?: Date;
     }
   }
 }

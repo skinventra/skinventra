@@ -3,7 +3,7 @@ import type { ReactNode } from 'react';
 type ButtonVariant = 'edit' | 'delete' | 'save' | 'cancel' | 'delete-confirm';
 
 interface ActionButtonProps {
-  onClick: () => void;
+  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   variant: ButtonVariant;
   title: string;

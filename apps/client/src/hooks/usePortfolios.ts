@@ -135,18 +135,15 @@ export function usePortfolios() {
     refetch,
     createPortfolio: async (data: CreatePortfolioDto) => {
       await createMutation.mutateAsync(data);
-      queryClient.removeQueries({ queryKey: ['portfolios'] });
-      await refetch();
+      await queryClient.invalidateQueries({ queryKey: ['portfolios'] });
     },
     updatePortfolio: async (id: string, data: UpdatePortfolioDto) => {
       await updateMutation.mutateAsync({ id, data });
-      queryClient.removeQueries({ queryKey: ['portfolios'] });
-      await refetch();
+      await queryClient.invalidateQueries({ queryKey: ['portfolios'] });
     },
     deletePortfolio: async (id: string) => {
       await deleteMutation.mutateAsync(id);
-      queryClient.removeQueries({ queryKey: ['portfolios'] });
-      await refetch();
+      await queryClient.invalidateQueries({ queryKey: ['portfolios'] });
     },
 
     // Mutation states

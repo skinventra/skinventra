@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
-import SteamLoginButton from "./SteamLoginButton";
+import SteamLoginButton from "../auth/SteamLoginButton";
 import HeaderUserMenu from "./HeaderUserMenu";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 
 const Header = () => {
   const { user, logout, isLoggingOut } = useAuth();

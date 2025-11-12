@@ -1,9 +1,9 @@
-import { usePortfolioEdit } from '../hooks/usePortfolioEdit';
-import { useDeleteConfirmation } from '../hooks/useDeleteConfirmation';
+import { usePortfolioEdit } from '../../hooks/usePortfolioEdit';
+import { useDeleteConfirmation } from '../../hooks/useDeleteConfirmation';
 import PortfolioSkeleton from './PortfolioSkeleton';
 import PortfolioContainer from './PortfolioContainer';
 import PortfolioCard from './PortfolioCard';
-import type { Portfolio } from '../types/portfolio';
+import type { Portfolio } from '../../types/portfolio';
 
 interface PortfolioListProps {
   onSelectPortfolio: (id: string) => void;

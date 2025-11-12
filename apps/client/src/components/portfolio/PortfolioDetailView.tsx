@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
-import { usePortfolioEdit } from '../hooks/usePortfolioEdit';
+import { usePortfolioEdit } from '../../hooks/usePortfolioEdit';
 import PortfolioSidebar from './PortfolioSidebar';
-import ActionButton from './ActionButton';
-import EditIcon from './icons/EditIcon';
-import SaveIcon from './icons/SaveIcon';
-import CloseIcon from './icons/CloseIcon';
-import type { Portfolio } from '../types/portfolio';
+import ActionButton from '../ui/ActionButton';
+import EditIcon from '../icons/EditIcon';
+import SaveIcon from '../icons/SaveIcon';
+import CloseIcon from '../icons/CloseIcon';
+import type { Portfolio } from '../../types/portfolio';
 
 interface PortfolioDetailViewProps {
   portfolioId: string;

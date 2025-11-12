@@ -1,9 +1,9 @@
-import type { Portfolio } from '../types/portfolio';
-import EditIcon from './icons/EditIcon';
-import DeleteIcon from './icons/DeleteIcon';
-import SaveIcon from './icons/SaveIcon';
-import CloseIcon from './icons/CloseIcon';
-import ActionButton from './ActionButton';
+import type { Portfolio } from '../../types/portfolio';
+import EditIcon from '../icons/EditIcon';
+import DeleteIcon from '../icons/DeleteIcon';
+import SaveIcon from '../icons/SaveIcon';
+import CloseIcon from '../icons/CloseIcon';
+import ActionButton from '../ui/ActionButton';
 
 interface PortfolioCardProps {
   portfolio: Portfolio;

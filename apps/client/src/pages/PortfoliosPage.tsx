@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useAuth } from '../hooks/useAuth';
 import { usePortfolios } from '../hooks/usePortfolios';
-import CreatePortfolioForm from '../components/CreatePortfolioForm';
-import PortfolioList from '../components/PortfolioList';
-import PortfolioDetailView from '../components/PortfolioDetailView';
-import Header from '../components/Header';
+import CreatePortfolioForm from '../components/portfolio/CreatePortfolioForm';
+import PortfolioList from '../components/portfolio/PortfolioList';
+import PortfolioDetailView from '../components/portfolio/PortfolioDetailView';
+import Header from '../components/header/Header';
 
 export default function PortfoliosPage() {
   const { user, loading: authLoading } = useAuth();

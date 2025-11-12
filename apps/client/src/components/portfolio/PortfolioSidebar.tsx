@@ -1,4 +1,4 @@
-import type { Portfolio } from '../types/portfolio';
+import type { Portfolio } from '../../types/portfolio';
 
 interface PortfolioSidebarProps {
   portfolios: Portfolio[];
@@ -14,7 +14,7 @@ export default function PortfolioSidebar({
   onBack
 }: PortfolioSidebarProps) {
   return (
-    <aside className="w-64 bg-davys-200 border-r border-white-200 overflow-y-auto flex-shrink-0">
+    <aside className="w-64 bg-davys-200 border-r border-white-200 overflow-y-auto shrink-0">
       <div className="p-4">
         <div className="flex items-center justify-between mb-4">
           <h2 className="text-lg font-semibold text-white">Portfolios</h2>

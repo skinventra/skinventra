@@ -1,4 +1,4 @@
-import { API_ENDPOINTS } from '../config/api';
+import { API_ENDPOINTS } from '../../config/api';
 
 interface SteamLoginButtonProps {
   onClick?: () => void;

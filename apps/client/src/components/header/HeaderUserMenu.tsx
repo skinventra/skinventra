@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import type { User } from '../types/user';
+import type { User } from '../../types/user';
 
 interface HeaderUserMenuProps {
   user: User;

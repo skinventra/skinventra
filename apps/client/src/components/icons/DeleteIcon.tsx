@@ -1,4 +1,4 @@
-export default function DeleteIcon({ className = "w-5 h-5" }: { className?: string }) {
+export function DeleteIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
     <svg 
       className={className}
@@ -16,4 +16,6 @@ export default function DeleteIcon({ className = "w-5 h-5" }: { className?: stri
     </svg>
   );
 }
+
+export default DeleteIcon;
 

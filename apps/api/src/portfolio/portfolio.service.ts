@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException, ForbiddenException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreatePortfolioDto } from './dto/create-portfolio.dto';
 import { UpdatePortfolioDto } from './dto/update-portfolio.dto';
@@ -39,7 +43,11 @@ export class PortfolioService {
     return portfolio;
   }
 
-  async update(id: string, userId: string, updatePortfolioDto: UpdatePortfolioDto) {
+  async update(
+    id: string,
+    userId: string,
+    updatePortfolioDto: UpdatePortfolioDto,
+  ) {
     // Check if portfolio exists and belongs to user before updating
     const portfolio = await this.prisma.portfolio.findUnique({
       where: { id },
@@ -80,4 +88,3 @@ export class PortfolioService {
     });
   }
 }
-

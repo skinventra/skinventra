@@ -1,6 +1,9 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { usePortfolioEdit } from '../../hooks/usePortfolioEdit';
 import PortfolioSidebar from './PortfolioSidebar';
+import PortfolioHoldings from '../asset/PortfolioHoldings';
+import TransactionList from '../asset/TransactionList';
+import AddTransactionModal from '../asset/AddTransactionModal';
 import ActionButton from '../ui/ActionButton';
 import EditIcon from '../icons/EditIcon';
 import SaveIcon from '../icons/SaveIcon';
@@ -27,6 +30,8 @@ export default function PortfolioDetailView({
   portfoliosData
 }: PortfolioDetailViewProps) {
   const { portfolios, loading, error, updatePortfolio, isUpdating } = portfoliosData;
+  const [activeTab, setActiveTab] = useState<'holdings' | 'transactions'>('holdings');
+  const [showAddModal, setShowAddModal] = useState(false);
 
   const {
     editingId,
@@ -42,6 +47,7 @@ export default function PortfolioDetailView({
   // Reset editing state when switching portfolios
   useEffect(() => {
     cancelEdit();
+    setActiveTab('holdings');
   }, [portfolioId]);
 
   const portfolio = portfolios.find(p => p.id === portfolioId);
@@ -173,17 +179,60 @@ export default function PortfolioDetailView({
               </div>
             </div>
 
-            <div className="bg-davys-100 border border-white-200 rounded-lg shadow-lg p-6">
-              <h2 className="text-xl font-semibold text-white mb-4">
-                Portfolio Items
-              </h2>
-              <div className="text-center text-gray-400 py-12">
-                Items functionality coming soon...
+            <div className="bg-davys-100 border border-white-200 rounded-lg shadow-lg overflow-hidden">
+              <div className="flex items-center justify-between p-6 border-b border-white-200">
+                <div className="flex items-center gap-4">
+                  <button
+                    onClick={() => setActiveTab('holdings')}
+                    className={`px-4 py-2 font-medium rounded-lg transition-colors ${
+                      activeTab === 'holdings'
+                        ? 'bg-orange-peel text-raisin-black'
+                        : 'text-cadet-100 hover:text-white hover:bg-feldgrau'
+                    }`}
+                  >
+                    Holdings
+                  </button>
+                  <button
+                    onClick={() => setActiveTab('transactions')}
+                    className={`px-4 py-2 font-medium rounded-lg transition-colors ${
+                      activeTab === 'transactions'
+                        ? 'bg-orange-peel text-raisin-black'
+                        : 'text-cadet-100 hover:text-white hover:bg-feldgrau'
+                    }`}
+                  >
+                    Transactions
+                  </button>
+                </div>
+                <button
+                  onClick={() => setShowAddModal(true)}
+                  className="px-4 py-2 bg-orange-peel text-raisin-black font-semibold rounded-lg hover:bg-orange-600 transition-colors"
+                >
+                  + Add Transaction
+                </button>
+              </div>
+
+              <div className="p-6">
+                {activeTab === 'holdings' && (
+                  <PortfolioHoldings portfolioId={portfolioId} />
+                )}
+                {activeTab === 'transactions' && (
+                  <TransactionList portfolioId={portfolioId} />
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      {showAddModal && (
+        <AddTransactionModal
+          portfolioId={portfolioId}
+          onClose={() => setShowAddModal(false)}
+          onSuccess={() => {
+            setShowAddModal(false);
+          }}
+        />
+      )}
     </>
   );
 }

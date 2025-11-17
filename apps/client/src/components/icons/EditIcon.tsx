@@ -1,4 +1,4 @@
-export default function EditIcon({ className = "w-5 h-5" }: { className?: string }) {
+export function EditIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
     <svg 
       className={className}
@@ -16,4 +16,6 @@ export default function EditIcon({ className = "w-5 h-5" }: { className?: string
     </svg>
   );
 }
+
+export default EditIcon;
 

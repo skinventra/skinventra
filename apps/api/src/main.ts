@@ -4,6 +4,7 @@ import { AppModule } from './app.module';
 import session from 'express-session';
 import passport from 'passport';
 import { createProxyMiddleware } from 'http-proxy-middleware';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 
 async function bootstrap() {
   // Validate required environment variables
@@ -28,6 +29,11 @@ async function bootstrap() {
   }
 
   const app = await NestFactory.create(AppModule);
+
+  const logger = app.get(WINSTON_MODULE_NEST_PROVIDER);
+  app.useLogger(logger);
+
+  logger.log('Starting application...', 'Bootstrap');
 
   // In development, proxy non-API requests to Vite dev server
   const isProduction = process.env.NODE_ENV === 'production';
@@ -87,7 +93,10 @@ async function bootstrap() {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  await app.listen(process.env.PORT ?? 3000);
-  console.log(`Application is running on: ${await app.getUrl()}`);
+  const port = process.env.PORT ?? 3000;
+  await app.listen(port);
+
+  logger.log(`Application is running on: ${await app.getUrl()}`, 'Bootstrap');
+  logger.log(`Environment: ${process.env.NODE_ENV || 'development'}`, 'Bootstrap');
 }
 bootstrap();

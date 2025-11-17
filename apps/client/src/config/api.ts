@@ -18,6 +18,27 @@ export const API_ENDPOINTS = {
     detail: (id: string) => `${API_URL}/portfolios/${id}`,
     update: (id: string) => `${API_URL}/portfolios/${id}`,
     delete: (id: string) => `${API_URL}/portfolios/${id}`,
+  },
+  assets: {
+    search: `${API_URL}/assets/search`,
+    detail: (id: string) => `${API_URL}/assets/${id}`,
+    count: `${API_URL}/assets/count`,
+    sync: `${API_URL}/assets/sync`,
+    syncStatus: `${API_URL}/assets/sync/status`,
+  },
+  transactions: {
+    list: (portfolioId: string) => `${API_URL}/portfolios/${portfolioId}/transactions`,
+    create: (portfolioId: string) => `${API_URL}/portfolios/${portfolioId}/transactions`,
+    detail: (portfolioId: string, transactionId: string) => 
+      `${API_URL}/portfolios/${portfolioId}/transactions/${transactionId}`,
+    update: (portfolioId: string, transactionId: string) => 
+      `${API_URL}/portfolios/${portfolioId}/transactions/${transactionId}`,
+    delete: (portfolioId: string, transactionId: string) => 
+      `${API_URL}/portfolios/${portfolioId}/transactions/${transactionId}`,
+  },
+  holdings: {
+    list: (portfolioId: string) => `${API_URL}/portfolios/${portfolioId}/holdings`,
+    summary: (portfolioId: string) => `${API_URL}/portfolios/${portfolioId}/holdings/summary`,
   }
 } as const;
 

@@ -1,5 +1,6 @@
 import { Module, NestModule, MiddlewareConsumer } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { ScheduleModule } from '@nestjs/schedule';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { AppController } from './app.controller';
@@ -7,6 +8,8 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { PortfolioModule } from './portfolio/portfolio.module';
+import { AssetModule } from './asset/asset.module';
+import { LoggerModule } from './logger/logger.module';
 import { SessionValidationMiddleware } from './auth/middleware/session-validation.middleware';
 import { UserContextMiddleware } from './auth/middleware/user-context.middleware';
 import { AuthLoggingMiddleware } from './auth/middleware/auth-logging.middleware';
@@ -21,6 +24,7 @@ const isProduction = process.env.NODE_ENV === 'production';
       envFilePath: '.env',
       expandVariables: true,
     }),
+    ScheduleModule.forRoot(),
     // Serve static files from client build only in production
     ...(isProduction
       ? [
@@ -35,15 +39,16 @@ const isProduction = process.env.NODE_ENV === 'production';
               'client',
               'dist',
             ),
-            exclude: ['/api*'], // Exclude API routes from static serving
+            exclude: ['/api/(.*)?'], // Exclude API routes from static serving
             serveRoot: '/',
-            renderPath: '*', // Serve index.html for all non-API routes (SPA support)
           }),
         ]
       : []),
     PrismaModule,
+    LoggerModule,
     AuthModule,
     PortfolioModule,
+    AssetModule,
   ],
   controllers: [AppController],
   providers: [AppService],
@@ -58,8 +63,7 @@ export class AppModule implements NestModule {
       .apply(SessionValidationMiddleware, AuthLoggingMiddleware)
       .forRoutes('*');
 
-    consumer
-      .apply(UserContextMiddleware)
-      .forRoutes('portfolios', 'auth/user');
+    // Assets service is isolated and doesn't require user context enrichment
+    consumer.apply(UserContextMiddleware).forRoutes('portfolios', 'auth/user');
   }
 }

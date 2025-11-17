@@ -28,15 +28,64 @@ model User {
 
 // Portfolio model - minimal version with just title
 model Portfolio {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           String              @id @default(cuid())
+  userId       String
+  user         User                @relation(fields: [userId], references: [id], onDelete: Cascade)
   
-  title     String
+  title        String
   
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  transactions AssetTransaction[]
+  
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
   
   @@index([userId])
   @@map("portfolios")
+}
+
+// Asset - reference table for all CS2 items from Steam Market
+model Asset {
+  id           String              @id @default(cuid())
+  name         String              @unique
+  iconUrl      String?
+  currentPrice Decimal?            @db.Decimal(10, 2)
+  
+  transactions AssetTransaction[]
+  
+  createdAt    DateTime            @default(now())
+  updatedAt    DateTime            @updatedAt
+  
+  @@index([name])
+  @@map("assets")
+}
+
+// AssetTransaction - user transactions with assets
+model AssetTransaction {
+  id          String          @id @default(cuid())
+  portfolioId String
+  portfolio   Portfolio       @relation(fields: [portfolioId], references: [id], onDelete: Cascade)
+  assetId     String
+  asset       Asset           @relation(fields: [assetId], references: [id], onDelete: Cascade)
+  
+  type        TransactionType
+  quantity    Int
+  price       Decimal         @db.Decimal(10, 2)
+  totalPrice  Decimal         @db.Decimal(10, 2)
+  date        DateTime        @default(now())
+  notes       String?
+  
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  
+  @@index([portfolioId])
+  @@index([assetId])
+  @@index([date])
+  @@map("asset_transactions")
+}
+
+enum TransactionType {
+  BUY
+  SELL
+  TRANSFER_IN
+  TRANSFER_OUT
 }
